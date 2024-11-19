@@ -62,6 +62,22 @@ class MainActivity : AppCompatActivity() {
             downloadComic(numberEditText.text.toString())
         }
 
+        if (file.exists()) {
+            try {
+                val br = BufferedReader(FileReader(file))
+                val text = StringBuilder()
+                var line: String?
+                while (br.readLine().also { line = it } != null) {
+                    text.append(line)
+                    text.append('\n')
+                }
+                br.close()
+                showComic(JSONObject(text.toString()))
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+
     }
 
     // Fetches comic from web as JSONObject
